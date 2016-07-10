@@ -127,8 +127,23 @@ function removeStyleElement(styleElement) {
 }
 
 function createStyleElement(options) {
+
+    options = options || {};
+
 	var styleElement = document.createElement("style");
 	styleElement.type = "text/css";
+
+    if(typeof options.styleElemAttrs === 'string'){
+        try{
+
+            var styleElemAttrs = JSON.parse(options.styleElemAttrs);
+
+            Object.keys(styleElemAttrs).forEach(function (key) {
+                styleElement.setAttribute(key, styleElemAttrs[key]);
+            });
+        }catch(e){/*noop*/}
+    }
+
 	insertStyleElement(options, styleElement);
 	return styleElement;
 }
